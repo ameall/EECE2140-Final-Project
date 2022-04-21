@@ -43,13 +43,13 @@ class GameCenter:
         #Make buttons to go on canvas
         #virtualPixel = tk.PhotoImage(width = 1, height = 1)   #do this if want to define buttons in terms of pixels
         game1Button = tk.Button(mainWindow, text = "21", width = 10, height = 2, font = ("Arial", 13), command = lambda : Twenty_One_Game())   #width and height units are equal to width and height of character 0, respectively
-        game1Button.place(x = window_width/10, y = window_height*4/5)
+        game1Button.place(x = window_width*2/10, y = window_height*4/5)
 
         game2Button = tk.Button(mainWindow, text = "Matching", width = 10, height = 2, font = ("Arial", 13), command = lambda : Matching_Game())
-        game2Button.place(x = window_width*4/10, y = window_height*4/5)
+        game2Button.place(x = window_width*6/10, y = window_height*4/5)
 
-        game3Button = tk.Button(mainWindow, text = "Game 3", width = 10, height = 2, font = ("Arial", 13))
-        game3Button.place(x = window_width*7/10, y = window_height*4/5)
+        # game3Button = tk.Button(mainWindow, text = "Game 3", width = 10, height = 2, font = ("Arial", 13))
+        # game3Button.place(x = window_width*7/10, y = window_height*4/5)
         
         canvas.pack()   #Load canvas into tkinter window
         mainWindow.mainloop()   #Keeps window open and running
