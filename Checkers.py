@@ -28,7 +28,7 @@ class Checkers():
                     #Set variables equal to prow and pcol so that can use them to pass into validMove() to check if move is valid
             
             elif mouseClick == 2:
-                while not self.validMove():
+                while not self.validMove(self.prow, self.pcol):
                     self.mousePoint = self.win.getMouse()
             
             if self.playerTurn == 1:
@@ -131,12 +131,16 @@ class Checkers():
         prow = self.getPosition()[0]
         pcol = self.getPosition()[1]
         if ((self.board[prow][pcol] == 1 or self.board[prow][pcol] == 3) and self.playerTurn == 1):
+            self.prow = prow
+            self.pcol = pcol
             return True
         elif ((self.board[prow][pcol] == 2 or self.board[prow][pcol] == 4) and self.playerTurn == 2):
+            self.prow = prow
+            self.pcol = pcol
             return True
         return False
     
-    def validMove(self):
+    def validMove(self, pieceRow, pieceCol):
         prow = self.getPosition()[0]
         pcol = self.getPosition()[1]
         if self.board[prow][pcol] == 0:
