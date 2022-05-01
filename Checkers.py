@@ -2,63 +2,66 @@
 # Checkers program for Game Hub
 #---------------------------------
 
-"""
-How to make this game:
-    Make a 2D Array of objects, with values being 0, 1, or 2
-    Make red canvas, then use for loop to create black squares over top of red canvas to represent the board
-    Let 0 = empty square, 1 = square with white piece, 2 = square with black piece
-        For spots in array marked with 1 or 2, display corresponding circle on square
-    Have user click square with checkers piece first
-        Make sure to check if there is actual checkers piece in clicked square
-    Then have user click square where they want to move to and check if move is a valid move (diagonal by one square)
-        If there is piece in square, then auto-move the piece to the spot on the diagonal after the piece
-            Do we want to allow doulbe jumping?
-    Keep counter of number of pieces controlled by each player (starting is 12)
-        If counter reaches, the game is over and one player has won
-    
-In terms of graphics:
-    Divide canvas into 8x8 grid and fill every other grid spot black to get checkerboard pattern
-    Then display all the circles for the game pieces for both user (pieces should be on black tiles)
-        Black player goes first
-
-How to make this game:
-    Make multiple classes, board, piece, and main
-    Initialize board class and draw 8x8 grid of squares using graphics.py
-    Set all squares to 0, then 
-"""
-
 from graphics import *
+import time
+
+#In terms of redrawing board overtop for each move, would be easier to redraw single square where piece was
+#This would stop ripple updating of board and pieces
 
 class Checkers():
     
     def __init__(self):
         """Method to start game automatically once method is called"""
+        #Run setup function for game, gameOver False until all player's pieces captured, playerTurn starts at 1, which is black player
         self.setup()
         self.gameOver = False
         self.playerTurn = 1
+        mouseClick = 1
 
         while not self.gameOver:
             self.drawBoard()
-            #self.mousePoint = self.win.getMouse()
-        
+            self.mousePoint = self.win.getMouse()
+            
+            if mouseClick == 1:
+                while not self.validPiece():
+                    self.mousePoint = self.win.getMouse()
+                    #Set variables equal to prow and pcol so that can use them to pass into validMove() to check if move is valid
+            
+            elif mouseClick == 2:
+                while not self.validMove():
+                    self.mousePoint = self.win.getMouse()
+            
+            if self.playerTurn == 1:
+                pass
+
+            elif self.playerTurn == 2:
+                pass
+
     def setup(self):
-        self.board = [  [0, 0, 0, 0, 0, 0, 0, 0],
+        #Starting state of board, 0 => empty square, 1 => square with black piece, 2 => square with white piece
+        self.board = [  [0, 2, 0, 2, 0, 2, 0, 2],
+                        [2, 0, 2, 0, 2, 0, 2, 0],
+                        [0, 2, 0, 2, 0, 2, 0, 2],
                         [0, 0, 0, 0, 0, 0, 0, 0],
                         [0, 0, 0, 0, 0, 0, 0, 0],
-                        [0, 0, 0, 0, 0, 0, 0, 0],
-                        [0, 0, 0, 0, 0, 0, 0, 0],
-                        [0, 0, 0, 0, 0, 0, 0, 0],
-                        [0, 0, 0, 0, 0, 0, 0, 0],
-                        [0, 0, 0, 0, 0, 0, 0, 0]]
+                        [1, 0, 1, 0, 1, 0, 1, 0],
+                        [0, 1, 0, 1, 0, 1, 0, 1],
+                        [1, 0, 1, 0, 1, 0, 1, 0]]
+        
+        #Set window to be slightly wider than tall, so can display information in side panel
         windowWidth = 900
         windowHeight = 800
         self.squareSize = 100
         self.win = GraphWin("Checkers Game", windowWidth, windowHeight)
-        self.win.setBackground("antique white")
+        self.win.setBackground("antique white")   #This will be the color of the side panel
     
     def drawBoard(self):
+        #Double for loop to iterate through every square in board
         for i in range(8):
             for j in range(8):
+                
+                #Draw board first before pieces
+                #Have to have nested if statements since row tiles are offset in color
                 if i % 2 == 0:
                     if j % 2 == 0:
                         x = j * self.squareSize
@@ -88,42 +91,55 @@ class Checkers():
                         rect = Rectangle(Point(x, y), Point(x + self.squareSize, y + self.squareSize))
                         rect.setFill("burlywood2")
                         rect.draw(self.win)
+
+        #Second double for loop to iterate through every square in board
+        for i in range(8):
+            for j in range(8):
+                
+                #Draw pieces on top of board
+                #If 1, draw black circle
+                if self.board[j][i] == 1:
+                    circ = Circle(Point(i * self.squareSize + self.squareSize/2, j * self.squareSize + self.squareSize/2), 45)
+                    circ.setFill("black")
+                    circ.draw(self.win)
+                
+                #If 2, draw white circle
+                elif self.board[j][i] == 2:
+                    circ = Circle(Point(i * self.squareSize + self.squareSize/2, j * self.squareSize + self.squareSize/2), 45)
+                    circ.setFill("white")
+                    circ.draw(self.win)
+                
+                #If 3, draw black king
+                elif self.board[j][i] == 3:
+                    circ = Circle(Point(i * self.squareSize + self.squareSize/2, j * self.squareSize + self.squareSize/2), 45)
+                    circ.setFill("black")
+                    circ.draw(self.win)
+                
+                #If 4, draw white king
+                elif self.board[j][i] == 4:
+                    circ = Circle(Point(i * self.squareSize + self.squareSize/2, j * self.squareSize + self.squareSize/2), 45)
+                    circ.setFill("white")
+                    circ.draw(self.win)
     
-    def makePieces():
-        pass
-
-class Board():
-    pass
-
-class Piece():
-    pass
+    def getPosition(self):
+        row = int(self.mousePoint.getX() / self.squareSize)
+        col = int(self.mousePoint.getY() / self.squareSize)
+        return row, col
+    
+    def validPiece(self):
+        print("Checking valid")
+        prow = self.getPosition()[0]
+        pcol = self.getPosition()[1]
+        if ((self.board[prow][pcol] == 1 or self.board[prow][pcol] == 3) and self.playerTurn == 1):
+            return True
+        elif ((self.board[prow][pcol] == 2 or self.board[prow][pcol] == 4) and self.playerTurn == 2):
+            return True
+        return False
+    
+    def validMove(self):
+        prow = self.getPosition()[0]
+        pcol = self.getPosition()[1]
+        if self.board[prow][pcol] == 0:
+            pass
 
 newgame = Checkers()
-
-# class Board():
-#     def __init__(self):
-#         self.setup()
-#         self.drawBoard()
-    
-#     def setup(self):
-#         self.board = []
-#         for i in range(8):
-#             boardRow = []
-#             for j in range(8):
-#                 boardRow.append(0)
-#             self.board.append(boardRow)
-#         for i in range(3):
-#             for j in range(3):
-#                 if i % 2 == 0:
-#                     self.board[i][j*2] = 1
-#                     self.board[7 - i][j * 2 + 1]
-#                 if i % 2 == 1:
-#                     self.board[i][j*2 + 1] = 1
-#         windowSize = 600
-#         self.win = GraphWin("Checkers", windowSize, windowSize)
-#         self.win.setBackground('white')
-
-#     def drawBoard():
-#         for i in range(8):
-#             for j in range(8):
-#                 self.
