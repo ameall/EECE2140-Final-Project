@@ -8,12 +8,6 @@ from graphics import *
 import random as r
 import math as m
 
-def main():
-    """Method to run Game Center application, purpose is to keep source code hidden from user"""
-    GameCenter()
-
-main()
-
 class GameCenter:
     """GameCenter class, used for storing all necessary code to run the main window of program"""
 
@@ -682,3 +676,9 @@ class Checkers():
             return True
         
         return False
+
+def main():
+    """Method to run Game Center application, purpose is to keep source code hidden from user"""
+    GameCenter()
+
+main()
