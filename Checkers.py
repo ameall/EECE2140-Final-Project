@@ -405,5 +405,5 @@ class Checkers():
         if p1count == 0 or p2count == 0:
             print("game over")
             return True
-        
+
         return False
