@@ -1,11 +1,12 @@
 #---------------------------------------
-# EECE2140 Final Project: Game Cneter
+# EECE2140 Final Project: Game Center
 #---------------------------------------
 
 import tkinter as tk
 from Twenty_One_Game import Twenty_One_Game
 from tkinter import *
 from Matching_Game import Matching_Game
+from Checkers import Checkers
 
 class GameCenter:
     """GameCenter class, used for storing all necessary code to run the main window of program"""
@@ -43,13 +44,13 @@ class GameCenter:
         #Make buttons to go on canvas
         #virtualPixel = tk.PhotoImage(width = 1, height = 1)   #do this if want to define buttons in terms of pixels
         game1Button = tk.Button(mainWindow, text = "21", width = 10, height = 2, font = ("Arial", 13), command = lambda : Twenty_One_Game())   #width and height units are equal to width and height of character 0, respectively
-        game1Button.place(x = window_width*2/10, y = window_height*4/5)
+        game1Button.place(x = window_width*1/10, y = window_height*4/5)
 
         game2Button = tk.Button(mainWindow, text = "Matching", width = 10, height = 2, font = ("Arial", 13), command = lambda : Matching_Game())
-        game2Button.place(x = window_width*6/10, y = window_height*4/5)
+        game2Button.place(x = window_width*4/10, y = window_height*4/5)
 
-        # game3Button = tk.Button(mainWindow, text = "Game 3", width = 10, height = 2, font = ("Arial", 13))
-        # game3Button.place(x = window_width*7/10, y = window_height*4/5)
+        game3Button = tk.Button(mainWindow, text = "Checkers", width = 10, height = 2, font = ("Arial", 13), command = lambda : Checkers())
+        game3Button.place(x = window_width*7/10, y = window_height*4/5)
         
         canvas.pack()   #Load canvas into tkinter window
         mainWindow.mainloop()   #Keeps window open and running
