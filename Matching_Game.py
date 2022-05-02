@@ -51,6 +51,13 @@ class Matching_Game():
                 else:
                     mouseClick = 1
                     self.checkWin()
+        
+        if self.gameOver == True:
+            winText = Text(Point(300, 300), "You've found all of\nthe matches!")
+            winText.setSize(36)
+            winText.setStyle("bold")
+            winText.setTextColor("red")
+            winText.draw(self.win)
     
     def setup(self):
         """Method to create window for game and generate randomly oragnized matrix for matching pairs"""
